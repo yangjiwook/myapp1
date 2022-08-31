@@ -14,10 +14,10 @@
     <hr>
     <form method="post" action="">
       <div>
-        <div><label>상품 아이디</label><input type="text" readonly></div>
-        <div><label>상품명</label><input type="text" readonly></div>
-        <div><label>수량</label><input type="text" readonly></div>
-        <div><label>가격</label><input type="text" readonly></div>
+        <div><label>상품 아이디</label><input type="text" readonly th:value="${itemForm.productId}"></div>
+        <div><label>상품명</label><input type="text" readonly th:value="${itemForm.pname}"></div>
+        <div><label>수량</label><input type="text" readonly th:value="${itemForm.quantity}"></div>
+        <div><label>가격</label><input type="text" readonly th:value="${itemForm.price}"></div>
 
         <div>
           <button id="editBtn">수정</button>
