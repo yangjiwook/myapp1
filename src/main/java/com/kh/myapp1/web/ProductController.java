@@ -2,13 +2,19 @@ package com.kh.myapp1.web;
 
 import com.kh.myapp1.domain.Product;
 import com.kh.myapp1.domain.svc.ProductSVC;
+import com.kh.myapp1.web.form.EditForm;
 import com.kh.myapp1.web.form.ItemForm;
 import com.kh.myapp1.web.form.SaveForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -75,23 +81,44 @@ public class ProductController {
 
   //수정 양식
   @GetMapping("/{pid}/edit")
-  public String updateForm(){
+  public String updateForm(@PathVariable("pid") Long pid, Model model){
+
+    Product findedProduct = productSVC.findById(pid);
+
+    //Product => EditForm 변환
+    EditForm editForm = new EditForm();
+    editForm.setProductId(findedProduct.getProductId());
+    editForm.setPname(findedProduct.getPname());
+    editForm.setQuantity(findedProduct.getQuantity());
+    editForm.setPrice(findedProduct.getPrice());
+
+    model.addAttribute("editForm", editForm);
 
     return "product/editForm"; // 상품 수정 view
   }
 
   // 수정 처리
   @PostMapping("/{pid}/edit")
-  public  String update() {
+  public  String update(@PathVariable("pid") Long pid, EditForm editForm) {
 
-    return "redirect:/products/1"; // 상품 상세 view
+    Product product = new Product();
+    product.setProductId(pid);
+    product.setPname(editForm.getPname());
+    product.setQuantity(editForm.getQuantity());
+    product.setPrice(editForm.getPrice());
+
+    productSVC.update(pid, product);
+
+    return "redirect:/products/"+pid; // 상품 상세 url
   }
 
 
 
   //삭제 처리
   @GetMapping("/{pid}/del")
-  public String delete() {
+  public String delete(@PathVariable("pid") Long pid) {
+
+    productSVC.delete(pid);
 
     return "redirect:/products"; // 전체 목록 view
   }
@@ -100,7 +127,10 @@ public class ProductController {
 
   //목록 화면
   @GetMapping
-  public String list() {
+  public String list(Model model) {
+
+    List<Product> list = productSVC.findAll();
+    model.addAttribute("list", list);
 
     return "product/all"; // 전체 목록 view
   }

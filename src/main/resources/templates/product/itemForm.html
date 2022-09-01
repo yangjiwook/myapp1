@@ -14,30 +14,40 @@
     <hr>
     <form method="post" action="">
       <div>
-        <div><label>상품 아이디</label><input type="text" readonly th:value="${itemForm.productId}"></div>
-        <div><label>상품명</label><input type="text" readonly th:value="${itemForm.pname}"></div>
-        <div><label>수량</label><input type="text" readonly th:value="${itemForm.quantity}"></div>
-        <div><label>가격</label><input type="text" readonly th:value="${itemForm.price}"></div>
+        <div><label>상품 아이디</label><input type="text" readonly name="pid" th:value="${itemForm.productId}"></div>
+        <div><label>상품명</label><input type="text" readonly name="pname" th:value="${itemForm.pname}"></div>
+        <div><label>수량</label><input type="text" readonly name="quantity" th:value="${itemForm.quantity}"></div>
+        <div><label>가격</label><input type="text" readonly name="price" th:value="${itemForm.price}"></div>
 
         <div>
-          <button id="editBtn">수정</button>
-          <button id="delBtn">삭제</button>
-          <button id="listBtn">목록</button>
+          <button id="editBtn" type="button">수정</button>
+          <button id="delBtn" type="button">삭제</button>
+          <button id="listBtn" type="button">목록</button>
         </div>
       </div>
     </form>
   </div>
 
   <script>
-    editBtn.addEventListener('click', e=>{
-      location.href = '/'
-    });
-    delBtn.addEventListener('click', e=>{
+    (()=>{ // IIFE 즉시 실행 함수
+      const pid = document.querySelector('input[name=pid]').value;
 
-    });
-    listBtn.addEventListener('click', e=>{
-
-    });
+      //수정
+      editBtn.addEventListener('click', e=>{
+        const url = `/products/${pid}/edit`;
+        location.href = url;
+      });
+      //삭제
+      delBtn.addEventListener('click', e=>{
+        if(!confirm('삭제하시겠습니까')) return;
+        const url = `/products/${pid}/del`;
+        location.href = url;
+      });
+      //목록
+      listBtn.addEventListener('click', e=>{
+        location.href='/products';
+      });
+   })();
   </script>
 </body>
 </html>

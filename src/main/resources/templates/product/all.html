@@ -23,23 +23,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1</td>
-          <td><a href="/product/1">컴퓨터</a></td>
-          <td>10</td>
-          <td>1000000</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td><a href="/product/2">컴퓨터</a></td>
-          <td>5</td>
-          <td>1500000</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td><a href="/product/3">TV</a></td>
-          <td>1</td>
-          <td>3500000</td>
+        <!-- https://www.thymeleaf.org/doc/tutorials/2.1/usingthymeleaf.html#link-urls -->
+        <!-- th:each => thymeleaf의 반복문 형태 [tutorial 6] -->
+        <tr th:each="product : ${list}">
+          <td th:text="${product.productId}">1</td>
+          <!-- th:href="@{~~}" => thymeleaf의 url 형태  [tutorial 4.4] -->
+          <!-- ~{pid}의 값을 (pir=~~~)로 받겠다는 뜻 -->
+          <!-- 다른 예) url이 ~~?name=gildong 로 끝나야할때 =>  ~~${product.productId}, name='gildong'-->
+          <td><a href="/product/1" th:href="@{/products/{pid}(pid=${product.productId})}" th:text="${product.pname}">컴퓨터</a></td>
+          <td th:text="${product.quantity}">10</td>
+          <td th:text="${product.price}">1000000</td>
         </tr>
       </tbody>
     </table>

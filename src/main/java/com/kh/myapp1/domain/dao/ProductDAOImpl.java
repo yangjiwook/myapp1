@@ -109,39 +109,6 @@ public class ProductDAOImpl implements ProductDAO{
     return product;
   }
 
-  // 전체 조회
-  @Override
-  public List<Product> findAll() {
-    StringBuffer sql = new StringBuffer();
-
-    sql.append("select product_id, pname, quantity, price ");
-    sql.append(" from product ");
-
-    // case 1) [자동 매핑]  sql 결과 레코드와 동일한 구조의 java 객체가 존재할 경우
-    // Bean(자바가 관리하는객체)PropertyRowMapper<> => 레코드 결과가 BeanProperty에 자동 매핑
-    // jt.query(sql.toString(), new BeanPropertyRowMapper<Product>());
-
-    // case 2) [수동 매핑] sql 결과 레코드의 컬럼명과 java 객체의 멤버이름이 다른 경우 or 타입이 다른 경우
-    List<Product> result = jt.query(sql.toString(), new BeanPropertyRowMapper<>(Product.class));
-
-//    List<Product> result =
-//        jt.query(sql.toString(), new RowMapper<Product>() {
-//          @Override
-//          public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
-//            Product product = new Product();
-//
-//            product.setProductId(rs.getLong("product_id"));
-//            product.setQuantity(rs.getInt("quantity"));
-//            product.setPrice(rs.getInt("price"));
-//
-//            return product;
-//          }
-//        });
-
-
-    return result;
-  }
-
   // 수정
   @Override
   public void update(Long productId, Product product) {
@@ -164,6 +131,39 @@ public class ProductDAOImpl implements ProductDAO{
 
     jt.update(sql, productId);
   }
+
+  // 전체 조회
+  @Override
+  public List<Product> findAll() {
+    StringBuffer sql = new StringBuffer();
+
+    sql.append("select product_id, pname, quantity, price ");
+    sql.append(" from product ");
+
+    // case 1) [자동 매핑]  sql 결과 레코드와 동일한 구조의 java 객체가 존재할 경우
+    // Bean(자바가 관리하는객체)PropertyRowMapper<> => 레코드 결과가 BeanProperty에 자동 매핑
+    // jt.query(sql.toString(), new BeanPropertyRowMapper<Product>());
+    List<Product> result = jt.query(sql.toString(), new BeanPropertyRowMapper<>(Product.class));
+
+    // case 2) [수동 매핑] sql 결과 레코드의 컬럼명과 java 객체의 멤버이름이 다른 경우 or 타입이 다른 경우
+//    List<Product> result =
+//        jt.query(sql.toString(), new RowMapper<Product>() {
+//          @Override
+//          public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
+//            Product product = new Product();
+//
+//            product.setProductId(rs.getLong("product_id"));
+//            product.setQuantity(rs.getInt("quantity"));
+//            product.setPrice(rs.getInt("price"));
+//
+//            return product;
+//          }
+//        });
+
+
+    return result;
+  }
+
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -205,7 +205,7 @@ public class ProductDAOImpl implements ProductDAO{
   @Override
   public Long generatePid() {
     String sql = "select product_product_id_seq.nextval from dual ";
-    Long newProductId = jt.queryForObject(sql, Long.class);
+    Long newProductId = jt.queryForObject(sql, Long.class); //단일 레코드 단일 컬럼일때
     return newProductId;
   }
 }
