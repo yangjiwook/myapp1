@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Each2</title>
+</head>
+
+<body>
+  <!-- ${#numbers.sequence(from, to, step)} -->
+  <!-- 상태변수 지정은 [ 변수명, 상태변수명 ] -->
+  <th:block th:each="count, ss : ${#numbers.sequence(1,10)}">
+    <!-- <p th:text="${count}">Hello</p> -->
+    <p>Hello
+      <span th:text="${ss.index}"></span>
+      <span th:text="${ss.count}"></span>
+      <span th:text="${ss.first}"></span>
+      <span th:text="${ss.last}"></span>
+      <span th:text="${ss.current}"></span>
+      <span th:text="${ss.odd}"></span>
+      <span th:text="${ss.even}"></span>
+    </p>
+  </th:block>
+</body>
+</html>
