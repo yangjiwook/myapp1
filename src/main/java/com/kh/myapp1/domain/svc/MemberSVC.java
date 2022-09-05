@@ -28,15 +28,16 @@ public interface MemberSVC {
    * @param member 수정할 정보
    * @return 수정건수(int)
    */
-  void update(Long memberId, Member member);
+  int update(Long memberId, Member member);
 
 
   /**
    * 탈퇴
    * @param memberId 회원아이디
+   * @param pw 비밀번호
    * @return 삭제건수(int)
    */
-  void del(Long memberId);
+  int del(Long memberId, String pw);
 
 
   /**

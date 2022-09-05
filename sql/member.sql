@@ -43,10 +43,10 @@ select * from member where email = 'test@test.com';
 
 -- 수정
 update member
-    set pw = 5678,
-        nickname = '별칭4',
+    set nickname = '별칭4',
         udate = systimestamp
-    where email = 'test1@test.com';
+    where email = 'test1@test.com'
+      and pw = '1234';
 -- 수정 시간(udate)를 systimestamp를 사용하여 업데이트
 
 commit;

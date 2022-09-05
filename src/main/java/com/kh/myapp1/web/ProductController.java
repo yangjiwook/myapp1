@@ -2,9 +2,9 @@ package com.kh.myapp1.web;
 
 import com.kh.myapp1.domain.Product;
 import com.kh.myapp1.domain.svc.ProductSVC;
-import com.kh.myapp1.web.form.EditForm;
-import com.kh.myapp1.web.form.ItemForm;
-import com.kh.myapp1.web.form.SaveForm;
+import com.kh.myapp1.web.form.product.EditForm;
+import com.kh.myapp1.web.form.product.ItemForm;
+import com.kh.myapp1.web.form.product.SaveForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

@@ -95,13 +95,13 @@ public class MemberDAOImpl implements MemberDAO{
 
     StringBuffer sql = new StringBuffer();
     sql.append("update member ");
-    sql.append("   set pw = ?, ");
-    sql.append("       nickname = ?, ");
+    sql.append("   set nickname = ?, ");
     sql.append("       udate = systimestamp ");
     sql.append(" where member_id = ? ");
+    sql.append("   and pw = ? ");
 
     // 변경은 update
-    result = jt.update(sql.toString(), member.getPw(), member.getNickname(), memberId);
+    result = jt.update(sql.toString(), member.getNickname(), memberId, member.getPw());
 
     return result;
   }
@@ -112,11 +112,11 @@ public class MemberDAOImpl implements MemberDAO{
    * @param memberId 회원아이디
    */
   @Override
-  public int del(Long memberId) {
+  public int del(Long memberId, String pw) {
     int result = 0;
-    String sql = "delete from member where member_id = ? ";
+    String sql = "delete from member where member_id = ? and pw = ? ";
 
-    result = jt.update(sql, memberId);
+    result = jt.update(sql, memberId, pw);
 
     return result;
   }
@@ -128,8 +128,9 @@ public class MemberDAOImpl implements MemberDAO{
    */
   @Override
   public List<Member> all() {
+
     StringBuffer sql = new StringBuffer();
-    sql.append("select member_id, email, pw, nickname ");
+    sql.append("select member_id,email,pw,nickname,cdate,udate ");
     sql.append("  from member ");
 
     // 멀티 컬럼 -> new BeanPropertyRowMapper<>(클래스명.class)

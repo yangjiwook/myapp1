@@ -52,21 +52,26 @@ public class MemberSVCImpl implements MemberSVC{
    * @return 수정건수(int)
    */
   @Override
-  public void update(Long memberId, Member member) {
+  public int update(Long memberId, Member member) {
     int cnt = memberDAO.update(memberId, member);
     log.info("수정건수={}",cnt);
+
+    return cnt;
   }
 
   /**
    * 탈퇴
    *
    * @param memberId 회원아이디
+   * @param pw 비밀번호
    * @return 삭제건수(int)
    */
   @Override
-  public void del(Long memberId) {
-    int cnt = memberDAO.del(memberId);
+  public int del(Long memberId, String pw) {
+    int cnt = memberDAO.del(memberId, pw);
     log.info("삭제건수={}",cnt);
+
+    return cnt;
   }
 
   /**
