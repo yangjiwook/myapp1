@@ -9,29 +9,35 @@
 </head>
 
 <body>
-  <h3>회원 상세</h3>
-  <hr>
-  <form action="" method="post">
-    <div><label for="">아이디</label><input type="text" readonly th:value="${memberForm.memberId}"></div>
-    <div><label for="">이메일</label><input type="email" readonly th:value="${memberForm.email}"></div>
-    <div><label for="">비밀번호</label><input type="password" readonly th:value="${memberForm.pw}"></div>
-    <div><label for="">별칭</label><input type="text" readonly th:value="${memberForm.nickname}"></div>
-    <div><label for="">가입일</label><input type="text" readonly th:value="${memberForm.cdate}"></div>
-    <div><label for="">수정일</label><input type="text" readonly th:value="${memberForm.udate}"></div>
-    <div>
-      <button type="button" id="editBtn">수정</button>
-      <button type="button" id="delBtn">삭제</button>
-    </div>
-  </form>
-
-  <script>
-    editBtn.addEventListener('click', e=>{
+<h3>회원 상세</h3>
+<hr>
+<form action="" method="">
+  <div><label for="">아이디</label><input type="text" readonly th:value="${memberForm.memberId}"></div>
+  <div><label for="">이메일</label><input type="email" readonly th:value="${memberForm.email}"></div>
+  <div><label for="">비밀번호</label><input type="password" readonly th:value="${memberForm.pw}"></div>
+  <div><label for="">별칭</label><input type="text" readonly th:value="${memberForm.nickname}"></div>
+  <div><label for="">가입일</label><input type="text" readonly th:value="${{memberForm.cdate}}"></div>
+  <div><label for="">수정일</label><input type="text" readonly th:value="${{memberForm.udate}}"></div>
+  <div>
+    <button type="button" id="updateBtn">수정</button>
+    <button type="button" id="delBtn">삭제</button>
+    <button type="button" id="listBtn">목록</button>
+  </div>
+</form>
+<script th:inline="javascript">
+    updateBtn.addEventListener('click',e=>{
       console.log('수정');
-      // location.href = '/members/{id}/edit';
+      const url = [[@{|/admin/members/${memberForm.memberId}/edit|}]];
+      location.href = url;
     });
-    delBtn.addEventListener('click', e=>{
+    delBtn.addEventListener('click',e=>{
       console.log('삭제');
-      // location.href = '/members/{id}/del';
+      if(!confirm('삭제하시겠습니까?')) return;
+      location.href = [[@{|/admin/members/${memberForm.memberId}/del|}]];
+    });
+    listBtn.addEventListener('click',e=>{
+      console.log('목록');
+      location.href = [[@{/admin/members/all}]];
     });
   </script>
 

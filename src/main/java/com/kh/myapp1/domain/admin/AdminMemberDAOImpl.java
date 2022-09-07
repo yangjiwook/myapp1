@@ -81,11 +81,11 @@ public class AdminMemberDAOImpl implements AdminMemberDAO{
     StringBuffer sql = new StringBuffer();
     sql.append("update member ");
     sql.append("   set nickname = ?, ");
+    sql.append("       pw = ?, ");
     sql.append("       udate = systimestamp ");
     sql.append(" where member_id = ? ");
-    sql.append("   and pw = ? ");
 
-    result = jt.update(sql.toString(),member.getNickname(),memberId,member.getPw());
+    result = jt.update(sql.toString(),member.getNickname(),member.getPw(),memberId);
     return result;
   }
 
@@ -95,11 +95,11 @@ public class AdminMemberDAOImpl implements AdminMemberDAO{
    * @param memberId 아이디
    */
   @Override
-  public int del(Long memberId, String pw) {
+  public int del(Long memberId) {
     int result = 0;
-    String sql = "delete from member where member_id = ? and pw = ? ";
+    String sql = "delete from member where member_id = ? ";
 
-    result = jt.update(sql, memberId, pw);
+    result = jt.update(sql, memberId);
     return result;
   }
 

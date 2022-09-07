@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @Controller
 @RequestMapping("/admin/members")
@@ -21,15 +23,22 @@ public class AdminMemberController {
 
   //등록화면
   @GetMapping("/add")
-  public String addForm(){
+  public String addForm(Model model){
+
+    model.addAttribute("addForm", new AddForm());
 
     return "admin/member/addForm";  //가입 화면
   }
   //등록처리	POST	/members/add
   @PostMapping("/add")
-  public String add(AddForm addForm){
+  public String add(@ModelAttribute AddForm addForm){
     //검증
     log.info("addForm={}",addForm);
+    // 이메일 길이가 0이면 addForm으로 다시
+    if(addForm.getEmail().trim().length() == 0){
+      return "admin/member/addForm";
+    }
+
 
     Member member = new Member();
     member.setEmail(addForm.getEmail());
@@ -63,7 +72,14 @@ public class AdminMemberController {
   public String editForm(@PathVariable("id") Long id, Model model){
 
     Member findedMember = adminMemberSVC.findById(id);
-    model.addAttribute("member", findedMember);
+
+    EditForm editForm = new EditForm();
+    editForm.setMemberId(findedMember.getMemberId());
+    editForm.setEmail(findedMember.getEmail());
+    editForm.setPw(findedMember.getPw());
+    editForm.setNickname(findedMember.getNickname());
+
+    model.addAttribute("editForm", editForm);
     return "admin/member/editForm"; //회원 수정화면
   }
   //수정처리	POST	/members/{id}/edit
@@ -78,25 +94,26 @@ public class AdminMemberController {
     if(updatedRow == 0) {
       return "admin/member/editForm";
     }
-    return "redirect:/members/{id}"; //회원 상세화면
+    return "redirect:/admin/members/{id}"; //회원 상세화면
   }
-  //탈퇴화면
+
+  //삭제처리
   @GetMapping("/{id}/del")
-  public String delForm(){
-    return "admin/member/delForm"; //회원 탈퇴 화면
-  }
-  //탈퇴처리	GET	/members/{id}/del
-  @PostMapping("/{id}/del")
-  public String del(@PathVariable("id") Long id, @RequestParam("pw") String pw){
-    int deletedRow = adminMemberSVC.del(id,pw);
+  public String del(@PathVariable("id") Long id){
+    int deletedRow = adminMemberSVC.del(id);
     if(deletedRow == 0){
-      return "admin/member/delForm";
+      return "redirect:/admin/members/"+id;
     }
-    return "redirect:/";
+    return "redirect:/admin/members/all"; //삭제 후 목록 화면으로
   }
+
+
   //목록화면	GET	/members
   @GetMapping("/all")
-  public String all(){
+  public String all(Model model){
+
+    List<Member> list = adminMemberSVC.all();
+    model.addAttribute("list", list);
 
     return "admin/member/all";
   }

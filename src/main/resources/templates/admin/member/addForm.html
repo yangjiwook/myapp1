@@ -11,13 +11,15 @@
 <body>
   <h3>회원등록</h3>
   <hr>
-  <form action="" method="post">
-    <div><label for="">이메일</label><input type="email" th:name="email"></div>
-    <div><label for="">비밀번호</label><input type="password" th:name="pw"></div>
-    <div><label for="">별칭</label><input type="text" th:name="nickname"></div>
+  <form action="" method="post" th:object="${addForm}">
+    <div><label for="">이메일</label><input type="email" th:field="*{email}"></div>
+    <div><label for="">비밀번호</label><input type="password" th:field="*{pw}"></div>
+    <div><label for="">별칭</label><input type="text" th:field="*{nickname}"></div>
+    
     <div>
       <button type="submit">등록</button>
       <button type="reset">취소</button>
+      <button type="button" th:onclick="|location.href='@{/admin/members/all}'|">목록</button>
     </div>
   </form>
 

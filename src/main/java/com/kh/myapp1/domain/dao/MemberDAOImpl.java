@@ -86,12 +86,12 @@ public class MemberDAOImpl implements MemberDAO{
     StringBuffer sql = new StringBuffer();
     sql.append("update member ");
     sql.append("   set nickname = ?, ");
+    sql.append("       pw = ?, ");
     sql.append("       udate = systimestamp ");
     sql.append(" where member_id = ? ");
-    sql.append("   and pw = ? ");
 
     // 변경은 update
-    result = jt.update(sql.toString(),member.getNickname(),memberId,member.getPw());
+    result = jt.update(sql.toString(),member.getNickname(),member.getPw(),memberId);
     return result;
   }
 
