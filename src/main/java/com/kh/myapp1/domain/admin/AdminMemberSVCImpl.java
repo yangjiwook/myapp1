@@ -1,17 +1,18 @@
-package com.kh.myapp1.domain.svc;
+package com.kh.myapp1.domain.admin;
 
 import com.kh.myapp1.domain.Member;
-import com.kh.myapp1.domain.dao.MemberDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class MemberSVCImpl implements MemberSVC {
-
-  private final MemberDAO memberDAO;
+public class AdminMemberSVCImpl implements AdminMemberSVC {
+  //SVC에서는 DAO를 받아와야함
+  private final AdminMemberDAO adminMemberDAO;
 
   /**
    * 가입
@@ -23,10 +24,10 @@ public class MemberSVCImpl implements MemberSVC {
   public Member insert(Member member) {
 
     //회원 아이디 생성
-    Long generateMemberId = memberDAO.generateMemberId();
+    Long generateMemberId = adminMemberDAO.generateMemberId();
     member.setMemberId(generateMemberId);
-    memberDAO.insert(member);
-    return memberDAO.findById(generateMemberId);
+    adminMemberDAO.insert(member);
+    return adminMemberDAO.findById(generateMemberId);
   }
 
   /**
@@ -37,7 +38,7 @@ public class MemberSVCImpl implements MemberSVC {
    */
   @Override
   public Member findById(Long memberId) {
-    return memberDAO.findById(memberId);
+    return adminMemberDAO.findById(memberId);
   }
 
   /**
@@ -49,7 +50,7 @@ public class MemberSVCImpl implements MemberSVC {
    */
   @Override
   public int update(Long memberId, Member member) {
-    int cnt = memberDAO.update(memberId, member);
+    int cnt = adminMemberDAO.update(memberId, member);
     log.info("수정건수={}",cnt);
     return cnt;
   }
@@ -63,9 +64,18 @@ public class MemberSVCImpl implements MemberSVC {
    */
   @Override
   public int del(Long memberId, String pw) {
-    int cnt = memberDAO.del(memberId, pw);
+    int cnt = adminMemberDAO.del(memberId, pw);
     log.info("삭제건수={}", cnt);
     return cnt;
   }
 
+  /**
+   * 목록
+   *
+   * @return 회원전체
+   */
+  @Override
+  public List<Member> all() {
+    return adminMemberDAO.all();
+  }
 }
