@@ -77,4 +77,17 @@ public class AdminMemberSVCImpl implements AdminMemberSVC {
   public List<Member> all() {
     return adminMemberDAO.all();
   }
+
+
+  //순서 4 -> a.m.Controller 에서 구현
+  /**
+   * 이메일 중복 체크
+   *
+   * @param email 이메일
+   * @return 존재하면 true
+   */
+  @Override
+  public Boolean dupChkOfMemberEmail(String email) {
+    return adminMemberDAO.dupChkOfMemberEmail(email);
+  }
 }

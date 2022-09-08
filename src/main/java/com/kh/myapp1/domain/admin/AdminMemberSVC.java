@@ -40,4 +40,12 @@ public interface AdminMemberSVC {
    */
   List<Member> all();
 
+  //순서 3 -> SVC Impl
+  /**
+   * 이메일 중복 체크
+   * @param email 이메일
+   * @return 존재하면 true
+   */
+  Boolean dupChkOfMemberEmail(String email);
+
 }
