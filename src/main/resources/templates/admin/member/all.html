@@ -41,14 +41,17 @@
 <!--        <td><a th:href="@{/admin/members/{id}(id=${rec.memberId})}">[[${rec.memberId}]]</a></td>-->
         <td>[[${rec.memberId}]]</td>
         <td>[[${rec.email}]]</td>
-        <td>[[${#temporals.format(rec.cdate, 'yy-MM-dd HH:mm')}]]</td>
-        <td>[[${#temporals.format(rec.udate, 'yy-MM-dd HH:mm')}]]</td>
+<!--        <td>[[${#temporals.format(rec.cdate, 'yy-MM-dd HH:mm')}]]</td>-->
+<!--        <td>[[${#temporals.format(rec.udate, 'yy-MM-dd HH:mm')}]]</td>-->
+        <!--   controller의 all() 에서 BeanUtils.copyProperties 활용     -->
+        <td>[[${{rec.cdate}}]]</td>
+        <td>[[${{rec.udate}}]]</td>
       </tr>
     </tbody>
   </table>
 
   <div>
-    <button type="button" id="addBtn">등록</button>
+    <button type="button" id="addBtn" th:text="#{btn.add}">등록</button>
   </div>
 
   <script th:inline="javascript">

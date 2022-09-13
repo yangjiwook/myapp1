@@ -7,6 +7,7 @@ import com.kh.myapp1.web.admin.form.member.EditForm;
 import com.kh.myapp1.web.admin.form.member.MemberForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -41,8 +43,12 @@ public class AdminMemberController {
   @PostMapping("/add")
   public String add(
       @Valid @ModelAttribute("form") AddForm addForm,
-      BindingResult bindingResult,
+      BindingResult bindingResult, // #fields ?
       RedirectAttributes redirectAttributes){
+
+    // @ModelAttribute를 사용함으로 아래 코드 생략 가능
+    // model.addAttribute("addForm", addForm);
+
 
     log.info("addForm={}",addForm);
     //검증
@@ -198,7 +204,36 @@ public class AdminMemberController {
   @GetMapping("/all")
   public String all(Model model){
 
-    List<Member> list = adminMemberSVC.all();
+//    List<Member> list = adminMemberSVC.all();
+//    model.addAttribute("list", list);
+
+//    return "admin/member/all";
+
+    // BeanUtils.copyProperties()
+    // https://velog.io/@kdhyo/BeanUtils.copyProperties를-사용해보자
+    // 소스에서 타겟에 매핑해주는 기능
+    //                      source ->  target
+
+    List<Member> members = adminMemberSVC.all();
+    List<MemberForm> list = new ArrayList<>();
+
+//    for(Member member : members) {
+//      MemberForm memberForm = new MemberForm();
+//      // 위의 주석 참고
+//      BeanUtils.copyProperties(member, memberForm);
+//
+//      list.add(memberForm);
+//    }
+
+    //람다식
+    members.stream().forEach(member->{
+      MemberForm memberForm = new MemberForm();
+
+      BeanUtils.copyProperties(member, memberForm);
+
+      list.add(memberForm);
+    });
+
     model.addAttribute("list", list);
 
     return "admin/member/all";

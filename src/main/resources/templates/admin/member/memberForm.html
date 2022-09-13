@@ -14,14 +14,14 @@
 <form action="" method="" th:object="${form}">
   <div><label for="">아이디</label><input type="text" readonly th:field="*{memberId}"></div>
   <div><label for="">이메일</label><input type="email" readonly th:field="*{email}"></div>
-  <div><label for="">비밀번호</label><input type="password" readonly th:field="*{pw}"></div>
+  <div><label for="">비밀번호</label><input type="text" readonly th:field="*{pw}"></div>
   <div><label for="">별칭</label><input type="text" readonly th:field="*{nickname}"></div>
   <div><label for="">가입일</label><input type="text" readonly th:field="*{cdate}"></div>
   <div><label for="">수정일</label><input type="text" readonly th:field="*{udate}"></div>
   <div>
-    <button type="button" id="updateBtn">수정</button>
-    <button type="button" id="delBtn">삭제</button>
-    <button type="button" id="listBtn">목록</button>
+    <button type="button" id="updateBtn" th:text="#{btn.update}">수정</button>
+    <button type="button" id="delBtn" th:text="#{btn.delete}">삭제</button>
+    <button type="button" id="listBtn" th:text="#{btn.list}">목록</button>
   </div>
 </form>
 <script th:inline="javascript">
